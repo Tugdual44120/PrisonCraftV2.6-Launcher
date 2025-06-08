@@ -1,7 +1,7 @@
 {
     "name": "PrisonCraftV2.6-Launcher",
     "preductname": "PrisonCraftV2.6 Launcher",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Launcher pour PrisonCraftV2.6",
     "main": "src/app.js",
     "author": {
@@ -22,6 +22,7 @@
         "ignore": "**/test"
     },
     "dependencies": {
+        "discord-rich-presence": "^0.0.8",
         "electron-updater": "^6.1.8",
         "minecraft-java-core": "^4.1.1",
         "node-bdd": "^2.0.4",
@@ -30,7 +31,7 @@
     },
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "electron": "^36.2.1",
+        "electron": "^30.5.1",
         "electron-builder": "^24.13.3",
         "javascript-obfuscator": "^4.1.0",
         "jimp": "^0.22.12",
