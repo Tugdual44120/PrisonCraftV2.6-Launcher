@@ -4,27 +4,32 @@
  */
 console.log('🔥 app.js lancé !');
 const RPC = require('discord-rpc');
-const clientId = '1255494029995540571'; // Ton ID Discord App
-
+const clientId = '1255494029995540571';
 RPC.register(clientId);
-
 const rpc = new RPC.Client({ transport: 'ipc' });
 
-rpc.on('ready', () => {
-  console.log('✅ Discord RPC connecté');
-
-  rpc.setActivity({
-    details: 'PrisonCraft revient pour un été de folie !',
-    state: 'Rejoins nous : https://discord.gg/dEqMqZ9yqQ',
-    startTimestamp: new Date(),
-    largeImageKey: 'logo',
-    largeImageText: 'PrisonCraft Launcher',
-    buttons: [
-      { label: 'Jouer', url: 'https://discord.gg/dEqMqZ9yqQ' },
-      { label: 'Discord', url: 'https://discord.gg/dEqMqZ9yqQ' }
-    ]
-  });
+rpc.on('ready', async () => {
+  console.log('✅ RPC prêt');
+  await new Promise(r => setTimeout(r, 1500));
+  console.log('🕒 Envoi de l’activité avec boutons...');
+  try {
+    rpc.setActivity({
+      details: 'PrisonCraft - Rôleplay',
+      state: 'https://discord.gg/dEqMqZ9yqQ',
+      startTimestamp: new Date(),
+      largeImageKey: 'logo',
+      largeImageText: 'logo',
+      buttons: [
+        { label: 'Jouer', url: 'https://discord.gg/dEqMqZ9yqQ' },
+        { label: 'Discord', url: 'https://discord.gg/dEqMqZ9yqQ' }
+      ]
+    });
+    console.log('✅ Activité envoyée');
+  } catch (err) {
+    console.error('❌ Erreur setActivity', err);
+  }
 });
+
 
 rpc.login({ clientId }).catch(console.error);
 
