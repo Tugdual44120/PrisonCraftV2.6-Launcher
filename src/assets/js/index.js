@@ -8,17 +8,6 @@ const pkg = require('../package.json');
 const os = require('os');
 import { config, database } from './utils.js';
 const nodeFetch = require("node-fetch");
-const rpc = require('discord-rich-presence')('1255494029995540571'); // remplace avec ton ID
-
-rpc.updatePresence({
-  state: 'Sur le launcher PrisonCraft',
-  details: 'Connexion au serveur Minecraft',
-  startTimestamp: Date.now(),
-  largeImageKey: 'logo', // doit correspondre à une image sur Discord Dev
-  largeImageText: 'PrisonCraft Launcher',
-  instance: true,
-});
-
 
 class Splash {
     constructor() {

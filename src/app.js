@@ -2,7 +2,35 @@
  * @author Luuxis
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
+console.log('🔥 app.js lancé !');
+const RPC = require('discord-rpc');
+const clientId = '1255494029995540571'; // Ton ID Discord App
 
+RPC.register(clientId);
+
+const rpc = new RPC.Client({ transport: 'ipc' });
+
+rpc.on('ready', () => {
+  console.log('✅ Discord RPC connecté');
+
+  rpc.setActivity({
+    details: 'PrisonCraft revient pour un été de folie !',
+    state: 'Rejoins nous : https://discord.gg/dEqMqZ9yqQ',
+    startTimestamp: new Date(),
+    largeImageKey: 'logo',
+    largeImageText: 'PrisonCraft Launcher',
+    buttons: [
+      { label: 'Jouer', url: 'https://discord.gg/dEqMqZ9yqQ' },
+      { label: 'Discord', url: 'https://discord.gg/dEqMqZ9yqQ' }
+    ]
+  });
+});
+
+rpc.login({ clientId }).catch(console.error);
+
+
+rpc.on('connected', () => console.log('✅ Discord RPC connecté'));
+rpc.on('error', err => console.error('❌ Erreur RPC :', err));
 const { app, ipcMain, nativeTheme } = require('electron');
 const { Microsoft } = require('minecraft-java-core');
 const { autoUpdater } = require('electron-updater')
