@@ -4,30 +4,59 @@
  */
 console.log('🔥 app.js lancé !');
 const RPC = require('discord-rpc');
-const clientId = '1255494029995540571';
+const fetch = require('node-fetch');
+
+const clientId = '1255494029995540571'; // Ton ID Discord App
 RPC.register(clientId);
+
 const rpc = new RPC.Client({ transport: 'ipc' });
 
+// 🔄 Fonction pour obtenir les joueurs en ligne via mcstatus.io
+async function getPlayerCount() {
+  try {
+    const response = await fetch('https://api.mcstatus.io/v2/status/java/play.prisoncraft.fr');
+    const data = await response.json();
+    const players = data.players;
+    return `${players.online}/${players.max} joueurs connectés`;
+  } catch (err) {
+    console.error('❌ Erreur API mcstatus.io :', err);
+    return 'Serveur injoignable';
+  }
+}
+
+// 🔁 Lorsque la connexion RPC est prête
 rpc.on('ready', async () => {
   console.log('✅ RPC prêt');
-  await new Promise(r => setTimeout(r, 1500));
-  console.log('🕒 Envoi de l’activité avec boutons...');
-  try {
-    rpc.setActivity({
-      details: 'PrisonCraft - Rôleplay',
-      state: 'https://discord.gg/dEqMqZ9yqQ',
-      startTimestamp: new Date(),
-      largeImageKey: 'logo',
-      largeImageText: 'logo',
-      buttons: [
-        { label: 'Jouer', url: 'https://discord.gg/dEqMqZ9yqQ' },
-        { label: 'Discord', url: 'https://discord.gg/dEqMqZ9yqQ' }
-      ]
-    });
-    console.log('✅ Activité envoyée');
-  } catch (err) {
-    console.error('❌ Erreur setActivity', err);
-  }
+
+  const updatePresence = async () => {
+    const playerCount = await getPlayerCount();
+    console.log(`🟢 Mise à jour RPC : ${playerCount}`);
+
+    try {
+      await rpc.setActivity({
+        details: playerCount,
+        state: 'PrisonCraft V2.6',
+        startTimestamp: new Date(),
+        largeImageKey: 'logo',
+        largeImageText: 'PrisonCraft',
+        buttons: [
+          { label: 'Rejoindre le Discord', url: 'https://discord.gg/dEqMqZ9yqQ' },
+          { label: 'Jouer maintenant', url: 'https://prisoncraft.fr' }
+        ]
+      });
+      console.log('✅ Activité envoyée');
+    } catch (err) {
+      console.error('❌ Erreur setActivity', err);
+    }
+  };
+
+  // Mise à jour initiale + répétition toutes les 60s
+  await updatePresence();
+  setInterval(updatePresence, 60 * 1000);
+});
+
+rpc.login({ clientId }).catch(err => {
+  console.error('❌ Erreur RPC login :', err);
 });
 
 
@@ -39,6 +68,17 @@ rpc.on('error', err => console.error('❌ Erreur RPC :', err));
 const { app, ipcMain, nativeTheme } = require('electron');
 const { Microsoft } = require('minecraft-java-core');
 const { autoUpdater } = require('electron-updater')
+async function getPlayerCount() {
+  try {
+    const response = await fetch('https://api.mcstatus.io/v2/status/java/mc312.boxtoplay.com:26786'); // ou ton IP
+    const data = await response.json();
+    const players = data.players;
+    return `${players.online}/${players.max} joueurs connectés`;
+  } catch (err) {
+    console.error('Erreur API mcstatus.io :', err);
+    return 'Serveur injoignable';
+  }
+}
 
 const path = require('path');
 const fs = require('fs');
