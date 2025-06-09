@@ -37,7 +37,7 @@ async function getPlayerCount() {
     const response = await fetch('https://api.mcstatus.io/v2/status/java/mc312.boxtoplay.com:26786');
     const data = await response.json();
     const players = data.players;
-    return `${players.online}/${players.max} joueurs connectés`;
+    return `En jeu : ${players.online}/${players.max}`;
   } catch (err) {
     console.error('❌ Erreur API mcstatus.io :', err);
     return 'Serveur injoignable';
@@ -56,13 +56,13 @@ rpc.on('ready', async () => {
     try {
       await rpc.setActivity({
         details: playerCount,
-        state: 'PrisonCraft V2.6',
+        state: 'PrisonRP en 1.12.2 sous launcher',
         startTimestamp: startedAt,
         largeImageKey: 'logo',
-        largeImageText: 'Serveur Minecraft',
+        largeImageText: 'PrisonCraft !',
         buttons: [
           { label: 'Rejoindre le Discord', url: 'https://discord.gg/dEqMqZ9yqQ' },
-          { label: 'Jouer maintenant', url: 'https://prisoncraft.fr' }
+          { label: 'Jouer maintenant', url: 'https://discord.gg/dEqMqZ9yqQ' }
         ]
       });
       console.log('✅ Activité envoyée');
