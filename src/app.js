@@ -34,7 +34,7 @@ if (dev) {
 // Récupération des joueurs en ligne via mcstatus.io
 async function getPlayerCount() {
   try {
-    const response = await fetch('https://api.mcstatus.io/v2/status/java/mc312.boxtoplay.com:26786');
+    const response = await fetch('https://api.mcstatus.io/v2/status/java/163.5.159.58:25565');
     const data = await response.json();
     const players = data.players;
     return `En jeu : ${players.online}/${players.max}`;
